@@ -31,6 +31,8 @@ le module principal du projet arcade_game
 
 import pyxel
 from arcade_game.spaceship import Spaceship
+from arcade_game.ennemy import Ennemy
+from random import randint
 
 class Game:
     """
@@ -43,6 +45,7 @@ class Game:
         self.w = 128 #largeur de l'écran
         self.h = 256 #hauteur de l'écran
         self.spaceship = Spaceship(self, self.w//2, self.h-8) #instanciation du vaisseau
+        self.ennemies = []
         pyxel.init(self.w, self.h, title="Arcade Game")
         # chargement des images
         pyxel.load("images.pyxres")
@@ -57,8 +60,11 @@ class Game:
 
         # deplacement du vaisseau
         self.spaceship.update()
+        self.update_ennemies()
         for shoot in self.spaceship.shoots:
             shoot.update()
+        for ennemy in self.ennemies:
+            ennemy.update()
 
     # =====================================================
     # == DRAW (30FPS)
@@ -71,9 +77,16 @@ class Game:
         
         for shoot in self.spaceship.shoots:
             shoot.draw()
+        
+        if pyxel.frame_count % 30 == 0:
+            self.ennemies.append(Ennemy(randint(0, self.w), 0))
             
+        for ennemy in self.ennemies:
+            ennemy.draw()
+        
         self.spaceship.draw()
         self.update_shoot()
+        self.update_ennemies()
         
     def update_shoot(self):
         visible = []
@@ -81,6 +94,13 @@ class Game:
             if shoot.y > 0:
                 visible.append(shoot)
         self.spaceship.shoots = visible
+    
+    def update_ennemies(self):
+        visible = []
+        for ennemy in self.ennemies:
+            if ennemy.y < self.h:
+                visible.append(ennemy)
+        self.ennemies = visible
         
 
 # instanciation de notre classe
