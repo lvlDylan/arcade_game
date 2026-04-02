@@ -68,10 +68,19 @@ class Game:
 
         # vide la fenetre 30 fois par seconde
         pyxel.cls(0)
+        
         for shoot in self.spaceship.shoots:
             shoot.draw()
             
         self.spaceship.draw()
+        self.update_shoot()
+        
+    def update_shoot(self):
+        visible = []
+        for shoot in self.spaceship.shoots:
+            if shoot.y > 0:
+                visible.append(shoot)
+        self.spaceship.shoots = visible
         
 
 # instanciation de notre classe
