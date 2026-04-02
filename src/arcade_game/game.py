@@ -65,6 +65,7 @@ class Game:
             shoot.update()
         for ennemy in self.ennemies:
             ennemy.update()
+            self.is_collision(self.spaceship, ennemy)
 
     # =====================================================
     # == DRAW (30FPS)
@@ -101,6 +102,11 @@ class Game:
             if ennemy.y < self.h:
                 visible.append(ennemy)
         self.ennemies = visible
+    
+    def is_collision(self, vaiseau, ennemy):
+        if vaiseau.x == ennemy.x and vaiseau.y == ennemy.y:
+            print("BANG")
+        
         
 
 # instanciation de notre classe
