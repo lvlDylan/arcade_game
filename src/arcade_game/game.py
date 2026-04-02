@@ -66,7 +66,12 @@ class Game:
         for ennemy in self.ennemies:
             ennemy.update()
             self.is_collision(self.spaceship, ennemy)
+        
+        self.update_shoot()
+        self.update_ennemies()
+        self.collision_shoots_ennemies(self.spaceship.shoots, self.ennemies)
 
+            
     # =====================================================
     # == DRAW (30FPS)
     # =====================================================
@@ -86,8 +91,7 @@ class Game:
             ennemy.draw()
         
         self.spaceship.draw()
-        self.update_shoot()
-        self.update_ennemies()
+
         
     def update_shoot(self):
         visible = []
@@ -105,9 +109,21 @@ class Game:
     
     def is_collision(self, vaiseau, ennemy):
         if vaiseau.x == ennemy.x and vaiseau.y == ennemy.y:
-            print("BANG")
-        
-        
+            return True
+    
+    def collision_shoots_ennemies(self, shoots, ennemies):
+        ennemies_to_delete = []
+        shoots_to_delete = []
+        for shoot in shoots:
+            for ennemy in ennemies:
+                if (max(shoot.x, ennemy.x) <= min(shoot.x + shoot.w, ennemy.x + ennemy.w)) and (max(shoot.y, ennemy.y) <= min(shoot.y + shoot.h, ennemy.y + ennemy.h)) :
+                    ennemies_to_delete.append(ennemy)
+                    shoots_to_delete.append(shoot)
+                
+        for ennemy in ennemies_to_delete:
+            self.ennemies.remove(ennemy)
+        for shoot in shoots_to_delete:
+            self.spaceship.shoots.remove(shoot)
 
 # instanciation de notre classe
 Game()
