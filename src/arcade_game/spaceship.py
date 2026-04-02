@@ -24,6 +24,9 @@ Un module pour le vaisseau
                                                   `------'`
 """
 
+from arcade_game.shoot import Shoot
+
+
 import pyxel
 
 class Spaceship :
@@ -45,6 +48,7 @@ class Spaceship :
         # largeur (width) et hauteur du vaisseau (height)
         self.w = 8
         self.h = 8
+        self.shoots = []
 
     # =====================================================
     # == UPDATE
@@ -53,6 +57,7 @@ class Spaceship :
         """Mise à jour du vaisseau (30FPS)
         """
         self._move()
+        self._shoot()
 
     def _move(self):
         """déplacement avec les touches de directions"""
@@ -64,6 +69,10 @@ class Spaceship :
             self.y += 2
         if pyxel.btn(pyxel.KEY_UP) and self.y > 0:
             self.y -= 2
+    
+    def _shoot(self):
+        if pyxel.btn(pyxel.KEY_SPACE):
+            self.shoots.append(Shoot(self, self.x, self.y))
 
     # =====================================================
     # == DRAW
