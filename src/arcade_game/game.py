@@ -47,8 +47,11 @@ class Game:
         self.w = 128 #largeur de l'écran
         self.h = 256 #hauteur de l'écran
         self.spaceship = Spaceship(self, self.w//2, self.h-8) #instanciation du vaisseau
+        
         self.ennemies = []
         self.explosions = []
+        self.score = 0
+        
         pyxel.init(self.w, self.h, title="Arcade Game")
         # chargement des images
         pyxel.load("images.pyxres")
@@ -89,11 +92,12 @@ class Game:
         if self.spaceship.lives > 0:
             # affichage des vies            
             pyxel.text(5,5, 'VIES:'+ str(self.spaceship.lives), 7)
+            pyxel.text(5, 15, 'SCORE:'+ str(self.score), 7)
             for shoot in self.spaceship.shoots:
                 shoot.draw()
             
             if pyxel.frame_count % 30 == 0:
-                self.ennemies.append(Ennemy(randint(0, self.w), 0))
+                self.ennemies.append(Ennemy(randint(0, self.w - 8), -8))
             for ennemy in self.ennemies:
                 ennemy.draw()
             
@@ -139,6 +143,7 @@ class Game:
                 if (max(shoot.x, ennemy.x) <= min(shoot.x + shoot.w, ennemy.x + ennemy.w)) and (max(shoot.y, ennemy.y) <= min(shoot.y + shoot.h, ennemy.y + ennemy.h)):
                     ennemies_to_delete.append(ennemy)
                     shoots_to_delete.append(shoot)
+                    self.score += 1
                     self.explosions.append(Explosion(ennemy.x, ennemy.y, 1))
                 
         for ennemy in ennemies_to_delete:

@@ -3,6 +3,7 @@ le module d'ennemi
 """
 
 import pyxel
+import math
 
 class Ennemy :
     """
@@ -18,6 +19,7 @@ class Ennemy :
         """
         # position initiale du vaisseau
         self.x = x
+        self.base_x = x
         self.y = y
         # largeur (width) et hauteur du vaisseau (height)
         self.w = 8
@@ -33,8 +35,8 @@ class Ennemy :
         self.draw()
         
     def _move(self):
-        
-        self.y += 2
+         self.y += 0.5  # avance constante
+         self.x = self.base_x + math.sin(pyxel.frame_count * 0.1) * 10
 
     # =====================================================
     # == DRAW
