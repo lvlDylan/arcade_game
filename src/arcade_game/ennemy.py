@@ -43,4 +43,10 @@ class Ennemy :
         """
         Dessin d'un ennemi
         """
-        pyxel.blt(self.x, self.y, 0, 0, 8, 8, 8)
+        frame_count = pyxel.frame_count
+        if frame_count % 15 < 5:
+            pyxel.blt(self.x, self.y, 0, 0, 8, 8, 8)
+        elif frame_count % 15 < 10:
+            pyxel.blt(self.x, self.y, 0, 0, 16, 8, 8)
+        else:
+            pyxel.blt(self.x, self.y, 0, 0, 24, 8, 8)
