@@ -106,7 +106,8 @@ class Game:
                     
             self.spaceship.draw()
         else:
-            pyxel.text(50,64, 'GAME OVER', 7)
+            pyxel.text(45,64, 'GAME OVER', 7)
+            pyxel.text(45, 75, 'SCORE : ' + str(self.score), 7)
 
         
     def update_shoot(self):
